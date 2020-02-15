@@ -1,0 +1,19 @@
+import { call, put } from 'redux-saga/effects';
+import api from '~/services/api';
+
+import { Creators as {{upperFirstCamelCaseName}}Actions } from '../ducks/{{lowerName}}';
+
+export function* carregarLista(action) {
+  try {
+    const response = yield call(api.get, '/lowerName');
+    yield put({{upperFirstCamelCaseName}}Actions.successList(response.data));
+  } catch ({ response }) {
+    if (response) {
+      yield put({{upperFirstCamelCaseName}}Actions.errorList(response.data));
+    } else {
+      yield put(
+        {{upperFirstCamelCaseName}}Actions.errorList('Não foi possível completar a requisição')
+      );
+    }
+  }
+}

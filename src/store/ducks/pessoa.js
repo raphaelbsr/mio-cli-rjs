@@ -1,12 +1,12 @@
 import Immutable from 'seamless-immutable';
 
 export const Types = {
-  REQUEST_DATA: '{{upperFirstCamelCaseName}}/REQUEST_DATA',
-  SUCCESS_DATA: '{{upperFirstCamelCaseName}}/SUCCESS_DATA',
-  FAILURE_DATA: '{{upperFirstCamelCaseName}}/FAILURE_DATA',
+  REQUEST_DATA: 'Pessoa/REQUEST_DATA',
+  SUCCESS_DATA: 'Pessoa/SUCCESS_DATA',
+  FAILURE_DATA: 'Pessoa/FAILURE_DATA',
 
-  ADICIONAR_ITEM: '{{upperFirstCamelCaseName}}/ADICIONAR_ITEM',
-  ATUALIZAR_ITEM: '{{upperFirstCamelCaseName}}/ATUALIZAR_ITEM'
+  ADICIONAR_ITEM: 'Pessoa/ADICIONAR_ITEM',
+  ATUALIZAR_ITEM: 'Pessoa/ATUALIZAR_ITEM'
 };
 
 const initialState = Immutable({

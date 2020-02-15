@@ -112,7 +112,7 @@ const Table = props => {
 
   return (
     <DataTable
-      title="{{upperFirstCamelCaseName}}s"
+      title="Pessoas"
       data={apps}
       columns={columns}
       options={options}
