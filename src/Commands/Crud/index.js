@@ -2,145 +2,123 @@ import { upperFirst, camelCase, toLower } from "lodash";
 import Mustache from "mustache";
 import path from "path";
 import fs from "fs";
+import { writeFile, readTemplateFile, renderTemplate } from "../../Commons";
 
-const writeFile = async (filePath, fileName, content) => {
+const templatesConfigs = {
+  page: {
+    getTemplateFilePath: () => {
+      return path.join(
+        __dirname,
+        "../../Templates/Page",
+        `index-with-redux.mustache`
+      );
+    },
+    getFilePath: params => {
+      const { upperFirstCamelCaseName } = params;
+      return path.join(process.cwd(), "src", "pages", upperFirstCamelCaseName);
+    }
+  },
+  form: {
+    getTemplateFilePath: () => {
+      return path.join(
+        __dirname,
+        "../../Templates/Page",
+        `form-with-redux.mustache`
+      );
+    },
+    getFilePath: params => {
+      const { upperFirstCamelCaseName } = params;
+      return path.join(
+        process.cwd(),
+        "src",
+        "pages",
+        upperFirstCamelCaseName,
+        "components",
+        "Form"
+      );
+    }
+  },
+  table: {
+    getTemplateFilePath: () => {
+      return path.join(
+        __dirname,
+        "../../Templates/Page",
+        `table-with-redux.mustache`
+      );
+    },
+    getFilePath: params => {
+      const { upperFirstCamelCaseName } = params;
+      return path.join(
+        process.cwd(),
+        "src",
+        "pages",
+        upperFirstCamelCaseName,
+        "components",
+        "Table"
+      );
+    }
+  },
+  reduxAction: {
+    getTemplateFilePath: () => {
+      return path.join(
+        __dirname,
+        "../../Templates/Store",
+        `redux-action.mustache`
+      );
+    },
+    getFilePath: () => {
+      return path.join(process.cwd(), "src", "store", "ducks");
+    }
+  },
+  saga: {
+    getTemplateFilePath: () => {
+      return path.join(__dirname, "../../Templates/Store", `saga.mustache`);
+    },
+    getFilePath: () => {
+      return path.join(process.cwd(), "src", "store", "sagas");
+    }
+  }
+};
+
+const generate = (template, { upperFirstCamelCaseName, lowerName }) => {
+  const templateFilePath = templatesConfigs[template].getTemplateFilePath();
+
+  const filePath = templatesConfigs[template].getFilePath({
+    upperFirstCamelCaseName
+  });
+
   try {
-    const absoluteFileName = path.join(filePath, fileName);
+    const templateFileString = readTemplateFile(templateFilePath);
 
-    fs.mkdirSync(filePath, { recursive: true });
-    const data = fs.writeFileSync(absoluteFileName, content);
-  } catch (err) {
-    console.error(err);
+    var rendered = renderTemplate(templateFileString, {
+      upperFirstCamelCaseName,
+      lowerName
+    });
+
+    writeFile(filePath, "index.js", rendered);
+  } catch (e) {
+    console.log(e);
   }
 };
 
 const generatePage = ({ upperFirstCamelCaseName, lowerName }) => {
-  const templateFilePath = path.join(
-    __dirname,
-    "../../Templates/Page",
-    `index-with-redux.mustache`
-  );
-
-  const filePath = path.join(
-    process.cwd(),
-    "src",
-    "pages",
-    upperFirstCamelCaseName
-  );
-
-  try {
-    const templateFileString = fs.readFileSync(templateFilePath, "utf-8");
-    var rendered = Mustache.render(templateFileString, {
-      upperFirstCamelCaseName,
-      lowerName
-    });
-
-    writeFile(filePath, "index.js", rendered);
-  } catch (e) {
-    console.log(e);
-  }
+  generate("page", { upperFirstCamelCaseName, lowerName });
 };
 
 const generateForm = ({ upperFirstCamelCaseName, lowerName }) => {
-  const templateFilePath = path.join(
-    __dirname,
-    "../../Templates/Page",
-    `form-with-redux.mustache`
-  );
-
-  const filePath = path.join(
-    process.cwd(),
-    "src",
-    "pages",
-    upperFirstCamelCaseName,
-    "components",
-    "Form"
-  );
-
-  try {
-    const templateFileString = fs.readFileSync(templateFilePath, "utf-8");
-    var rendered = Mustache.render(templateFileString, {
-      upperFirstCamelCaseName,
-      lowerName
-    });
-
-    writeFile(filePath, "index.js", rendered);
-  } catch (e) {
-    console.log(e);
-  }
+  generate("form", { upperFirstCamelCaseName, lowerName });
 };
 
 const generateTable = ({ upperFirstCamelCaseName, lowerName }) => {
-  const templateFilePath = path.join(
-    __dirname,
-    "../../Templates/Page",
-    `table-with-redux.mustache`
-  );
-
-  const filePath = path.join(
-    process.cwd(),
-    "src",
-    "pages",
-    upperFirstCamelCaseName,
-    "components",
-    "Table"
-  );
-
-  try {
-    const templateFileString = fs.readFileSync(templateFilePath, "utf-8");
-    var rendered = Mustache.render(templateFileString, {
-      upperFirstCamelCaseName,
-      lowerName
-    });
-
-    writeFile(filePath, "index.js", rendered);
-  } catch (e) {
-    console.log(e);
-  }
+  generate("table", { upperFirstCamelCaseName, lowerName });
 };
 
 const generateReduxAction = ({ upperFirstCamelCaseName, lowerName }) => {
-  const templateFilePath = path.join(
-    __dirname,
-    "../../Templates/Store",
-    `redux-action.mustache`
-  );
-
-  const filePath = path.join(process.cwd(), "src", "store", "ducks");
-
-  try {
-    const templateFileString = fs.readFileSync(templateFilePath, "utf-8");
-    var rendered = Mustache.render(templateFileString, {
-      upperFirstCamelCaseName,
-      lowerName
-    });
-
-    writeFile(filePath, `${lowerName}.js`, rendered);
-  } catch (e) {
-    console.log(e);
-  }
+  generate("reduxAction", { upperFirstCamelCaseName, lowerName });
 };
 
 const generateSaga = ({ upperFirstCamelCaseName, lowerName }) => {
-  const templateFilePath = path.join(
-    __dirname,
-    "../../Templates/Store",
-    `saga.mustache`
-  );
-
-  const filePath = path.join(process.cwd(), "src", "store", "sagas");
-
-  try {
-    const templateFileString = fs.readFileSync(templateFilePath, "utf-8");
-    var rendered = Mustache.render(templateFileString, {
-      upperFirstCamelCaseName,
-      lowerName
-    });
-
-    writeFile(filePath, `${lowerName}.js`, rendered);
-  } catch (e) {
-    console.log(e);
-  }
+  generate("saga", { upperFirstCamelCaseName, lowerName });
 };
 
 /**
@@ -150,13 +128,9 @@ const generateSaga = ({ upperFirstCamelCaseName, lowerName }) => {
 export async function handle({ name, options }) {
   const upperFirstCamelCaseName = upperFirst(camelCase(toLower(name)));
   const lowerName = toLower(name);
-
-  // const filePath = path.join(__dirname);
-  // console.log(process.cwd());
-  // console.log(filePath);
-  // generatePage({ upperFirstCamelCaseName, lowerName });
-  // generateForm({ upperFirstCamelCaseName, lowerName });
-  // generateTable({ upperFirstCamelCaseName, lowerName });
-  // generateReduxAction({ upperFirstCamelCaseName, lowerName });
+  generatePage({ upperFirstCamelCaseName, lowerName });
+  generateForm({ upperFirstCamelCaseName, lowerName });
+  generateTable({ upperFirstCamelCaseName, lowerName });
+  generateReduxAction({ upperFirstCamelCaseName, lowerName });
   generateSaga({ upperFirstCamelCaseName, lowerName });
 }
