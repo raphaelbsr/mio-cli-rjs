@@ -1,0 +1,23 @@
+{
+  "name": "mio-cli-rjs",
+  "version": "1.0.0",
+  "description": "Command Line Interface para aplicativos mio construídos em ReactJs",
+  "main": "src/index.js",
+  "author": "raphaelbsr",
+  "license": "MIT",
+  "repository": "https://github.com/raphaelbsr/mio-cli-rjs",
+  "bin": {
+    "miorjs": "./src/index.js"
+  },
+  "dependencies": {
+    "chalk": "2.4.2",
+    "cli-table": "0.3.1",
+    "commander": "2.19.0",
+    "esm": "^3.2.25",
+    "figlet": "1.2.1",
+    "inquirer": "6.2.2",
+    "lodash": "^4.17.15",
+    "mustache": "^4.0.0",
+    "shelljs": "0.8.3"
+  }
+}
