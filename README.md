@@ -8,6 +8,8 @@
 - Documentacão
 
 - Gerar CRUD com opcao de nao gerar o readuxAction e o Saga
+
+- Desacoplar os generators dos comandos
  
 - Tratamentos
   - Perguntar o usuário se deseja sobreescrever o arquivo caso exista;

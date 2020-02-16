@@ -2,6 +2,14 @@ import path from "path";
 import fs from "fs";
 import Mustache from "mustache";
 
+const fileExists = async path => {
+  try {
+    return fs.existsSync(path);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const writeFile = async (filePath, fileName, content) => {
   try {
     const absoluteFileName = path.join(filePath, fileName);
@@ -10,7 +18,6 @@ const writeFile = async (filePath, fileName, content) => {
     const data = fs.writeFileSync(absoluteFileName, content);
     return true;
   } catch (err) {
-    console.error(err);
     return err;
   }
 };
@@ -29,4 +36,4 @@ const renderTemplate = (
   });
 };
 
-export { writeFile, readTemplateFile, renderTemplate };
+export { writeFile, readTemplateFile, renderTemplate, fileExists };
