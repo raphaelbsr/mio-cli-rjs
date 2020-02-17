@@ -86,4 +86,4 @@ O Comando crud aceita que você envie alguns parâmetros
 | Parâmetro               | Tipo                        | Descrição                                                                                            |
 | ----------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------- |
 | -f   ou --force         | boolean <b>Padrão: false<b> | Se este parâmetro for informado o comando irá sobrescrever qualquer arquivo existente, tenha cuidado |
-| -n   ou --no-redux-saga | boolean <b>Padrão: false<b> | Se este parâmetro for informado o comando não irá gerar o CRUD utilizando o Redux e Saga             |
+| -n   ou --no-redux-saga | boolean <b>Padrão: false<b> | Se este parâmetro for informado o comando não irá utilizar o Redux e Saga no CRUDß             |
