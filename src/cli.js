@@ -8,8 +8,9 @@ program.version(package.version);
 
 program
   .command('crud [name]')
-  .description('Criar um CRUD')
+  .description('Cria uma estrutura pra realizar operações CRUD')
   .option(
+    '-n',
     '--no-redux-saga',
     'Não insere as ações do redux e nem os efeitos do saga'
   )
